@@ -1,0 +1,85 @@
+
+UI:
+
+<UI>:
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: 239/255,241/255,237/255,1
+            Rectangle:
+                size: self.size
+        orientation:"vertical"
+        Image:
+
+            source: "Images\logo.png"
+            center_x: self.parent.center_x
+            center_y: self.parent.center_y
+        BoxLayout:
+            orientation:"vertical"
+            canvas.before:
+                Color:
+                    rgba: 45/255,48/255,71/255,1
+                Rectangle:
+                    size: self.size
+            AnchorLayout:
+                anchor_x: "center"
+                anchor_y: "bottom"
+
+                BoxLayout:
+                    size_hint: None,None
+                    size: "700dp", "40dp"
+                    center: root.center
+
+                    TextInput:
+                        id:link
+                        hint_text: "Ex. https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                        font_size: 20
+                        multiline: False
+                        on_text: root.process()
+
+
+                    Button:
+                        size_hint: None,None
+                        height: 40
+                        width: 40
+                        background_color: (0,0,0,0)
+
+                        Image:
+                            height: "30dp"
+
+                            source: "Images\pasteIcon.png"
+                            center_x: self.parent.center_x
+                            center_y: self.parent.center_y
+            AnchorLayout:
+                center: root.center
+                anchor_y: "top"
+                padding: 0,10,0,0
+                BoxLayout:
+
+                    size_hint: None,None
+                    size: "600dp", "40dp"
+
+                    TextInput:
+                        id:path
+                        hint_text: "Ex. C:/Users/User/Desktop"
+                        font_size: 20
+                        multiline: False
+                        on_text:
+
+            Button:
+                text:"Download"
+                id: down
+                background_color: (45/255,48/255,71/255,1)
+                color: (1,1,1,1)
+                outline_color: (0,0,0,1)
+                outline_width: 2
+                font_size: 20
+                on_press:root.down_button()
+            Button:
+                text:"Download Audio"
+                background_color: (45/255,48/255,71/255,1)
+                color: (1,1,1,1)
+                outline_color: (0,0,0,1)
+                outline_width: 2
+                font_size: 20
