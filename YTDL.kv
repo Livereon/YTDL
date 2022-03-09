@@ -45,7 +45,7 @@ UI:
                             height: 40
                             width: 40
                             background_color: (0,0,0,0)
-                            on_release: root.pasteButton()
+                            on_release: root.pastebutton()
 
                             Image:
                                 height: "30dp"
@@ -67,7 +67,6 @@ UI:
                             hint_text: "Ex. C:/Users/User/Desktop"
                             font_size: 20
                             multiline: False
-                            on_text:
 
                 Button:
                     text:"Download"
@@ -101,9 +100,28 @@ UI:
                             Label:
                                 text: " Max. Resolution"
                             Spinner:
-                                id: resspinner
-                                text: "1080p"
-                                values: ["4320p","2160p","1440p","1080p","720p","360p","240p","144p"]
+                                id: rs
+                                text: "1080"
+                                values: ["4320","2160","1440","1080","720","360","240","144"]
+                    BoxLayout:
+                        Label:
+                            text: "Crunchyroll Login"
+                        GridLayout:
+                            cols: 2
+                            Label:
+                                text: "Username"
+                            TextInput:
+                                id: u
+                                multiline: False
+                                font_size: 20
+                            Label:
+                                text: "Password"
+                            TextInput:
+                                id: p
+                                multiline: False
+                                font_size: 20
+                                password: True
+
                     BoxLayout:
                         Label:
                             text:"Download options"

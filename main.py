@@ -1,36 +1,57 @@
-import warnings
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-import os, sys
-from kivy.resources import resource_add_path, resource_find
-from yt_dlp import YoutubeDL
+import os
+import sys
+
 import pyperclip
+from kivy.app import App
+from kivy.resources import resource_add_path
+from kivy.uix.boxlayout import BoxLayout
+from yt_dlp import YoutubeDL
 
-def format_selector(ctx):
 
-    pass
+class Logger:
+    def debug(self, msg):
+        if msg.startswith('[debug] '):
+            pass
+        else:
+            self.info(msg)
 
-validURL = {
-    "https://www.youtube.com",
-    "https://www.tiktok.com",
-    "https://www.crunchyroll.com"
-}
+    def info(self, msg):
+        pass
+
+    def warning(self, msg):
+        pass
+
+    def error(self, msg):
+        print(msg)
+
 
 class UI(BoxLayout):
 
-    def ydl_opt(self, PATH):
-        ydl_opts = {
-            'format': 'best',
-            'paths': {'home': PATH},
-            'format_sort': {
-                'res': f"{self.ids.resspinner.text[:-1]}",
-                'ext': "mp4"
+    def ydl_opt(self, path, rs, ext,usr,pw):
 
-            }
+        ydl_opts = {
+            'format': 'bv*+ba',
+            'username': usr,
+            'password': pw,
+            'extractor_args': {
+                'crunchyroll': {
+                    'language': ['jaJp'],
+                    'hardsub': ['None', 'enUS']},
+            },
+            'format_sort': {
+                f'res: {rs}',
+                f'ext: {ext}',
+            },
+            'paths': {'home': path},
+            'ffmpeg_location': './ffmpeg.exe',
+            'logger': Logger(),
+            'ignoreerrors': 'only_download',
+            # 'check_formats': True
         }
+
         return ydl_opts
 
-    def pasteButton(self):
+    def pastebutton(self):
         pastedlink = pyperclip.paste()
         self.ids.link.text = pastedlink
         pass
@@ -40,20 +61,21 @@ class UI(BoxLayout):
         return links
 
     def down_button(self):
-        with YoutubeDL(self.ydl_opt(self.ids.path.text)) as ydl:
-            link = str(self.process())
-            if any(link.startswith(x) for x in validURL):
-                ydl.download([self.process()])
+        path = self.ids.path.text
+        rs = self.ids.rs.text
+        usr = self.ids.u.text
+        pw = self.ids.p.text
+        link = str(self.process())
+        with YoutubeDL(self.ydl_opt(path, rs, 'mp4',usr,pw)) as ydl:
+            if "https://" in link:
+                ydl.download([link])
                 return
             elif link == "":
                 print("There is no link BAKA!")
                 return
-            else:
-                print("Ara ara! Use a Youtube,TikTok or Crunchyroll link!")
-                return
         pass
 
-##"
+
 class YTDLApp(App):
     pass
 
@@ -62,6 +84,3 @@ if __name__ == '__main__':
     if hasattr(sys, '_MEIPASS'):
         resource_add_path(os.path.join(sys._MEIPASS))
     YTDLApp().run()
-
-
-
