@@ -27,10 +27,10 @@ class Logger:
 
 class UI(BoxLayout):
 
-    def ydl_opt(self, path, rs, ext,usr,pw):
+    def ydl_opt(self, path, rs, ext, usr, pw):
 
         ydl_opts = {
-            'format': 'bv*+ba',
+            'format': 'best/mp4',
             'username': usr,
             'password': pw,
             'extractor_args': {
@@ -46,7 +46,7 @@ class UI(BoxLayout):
             'ffmpeg_location': './ffmpeg.exe',
             'logger': Logger(),
             'ignoreerrors': 'only_download',
-            # 'check_formats': True
+            #'check_formats': True
         }
 
         return ydl_opts
