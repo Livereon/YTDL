@@ -38,18 +38,32 @@ class UI(BoxLayout):
                     'language': ['jaJp'],
                     'hardsub': ['None', 'enUS']},
             },
-            'format_sort': {
-                f'res: {rs}',
+            'format_sort_force': {
+                f'height: {rs}',
                 f'ext: {ext}',
             },
             'paths': {'home': path},
             'ffmpeg_location': './ffmpeg.exe',
             'logger': Logger(),
             'ignoreerrors': 'only_download',
-            #'check_formats': True
+            'check_formats': None
         }
 
         return ydl_opts
+
+    def audioonly(self,path):
+        ydl_optsau = {
+            'format': 'ba',
+            'paths': {'home': path},
+            'postprocessors': [{
+                # Embed metadata in video using ffmpeg.
+                # ℹ️ See yt_dlp.postprocessor.FFmpegMetadataPP for the arguments it accepts
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3'
+            }],
+            'logger': Logger(),
+        }
+        return ydl_optsau
 
     def pastebutton(self):
         pastedlink = pyperclip.paste()
@@ -59,6 +73,18 @@ class UI(BoxLayout):
     def process(self):
         links = self.ids.link.text
         return links
+
+    def down_button_audio(self):
+        path = self.ids.path.text
+        link = str(self.process())
+        with YoutubeDL(self.audioonly(path)) as ydl:
+            if "https://" in link:
+                ydl.download([link])
+                return
+            elif link == "":
+                print("There is no link BAKA!")
+                return
+        pass
 
     def down_button(self):
         path = self.ids.path.text
