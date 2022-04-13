@@ -85,6 +85,7 @@ if __name__ == '__main__':
             ydl_optsau = {
                 'format': 'ba',
                 'paths': {'home': path},
+                'ffmpeg_location': 'ffmpeg/ffmpeg.exe',
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3'
